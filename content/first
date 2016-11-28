@@ -1,4 +1,4 @@
-<!doctype html>
+ <!DOCTYPE html> 
 <html>
 <head>
 <title>Pencil Code Editor</title>
@@ -25,7 +25,7 @@
 (function(){
 // First, register an error event logger.
 window.addEventListener('error', function(ev) {
-  (new Image).src = window.location.pathname + '?error' +
+  (new Image).src = '' + window.location.pathname + '?error' +
   '&message=' + encodeURIComponent(ev.message) +
   (!ev.error || !ev.error.stack ? '' :
   '&stack=' + encodeURIComponent(ev.error.stack));
@@ -78,7 +78,7 @@ htmlEscape(location.pathname.replace(/^\/(?:[^\/]*\/)?|\/$/g, '')),
 </div>
 <div id="guidepane"><div class="guidetitle">guide</div><div class="guidepreview"><iframe></iframe></div></div>
 </div><!-- end clip -->
-<script src=?callback=preload"></script>
+<script type="text/html" src="first?callback=preload"></script>
 <script src="lib/ace/ace.js"></script>
 <script src="editor.js"></script></script>
 <script>
