@@ -1,3 +1,12 @@
+How To Build Standalone
+=======================
+From home directory on windows:
+
+<pre>
+npm install electron
+.\node_modules\.bin\electron .
+</pre>
+
 How To Build and Test PencilCode
 ================================
 [![Build Status](https://travis-ci.org/PencilCode/pencilcode.png?branch=master)](https://travis-ci.org/PencilCode/pencilcode)
