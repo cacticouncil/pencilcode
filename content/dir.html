@@ -70,7 +70,7 @@ htmlEscape(location.pathname.replace(/^\/(?:[^\/]*\/)?|\/$/g, '')) +
 <div id="bravo" class="full pane"
 ><div class="vcenter"><div class="hcenter"
 ><div class="loading"></div></div></div></div>
-<script src="lib/jquery.js"></script>
+<script src="//pencilcode.net/lib/jquery.js"></script>
 <script>
 (function() {
 
@@ -87,7 +87,7 @@ $('#done').click(function() {
   var parent =
      window.location.pathname.replace(/\/[^\/]+\/?$/, '');
   if (parent.indexOf('/', 1) < 0) {
-    window.location.href = domain + '/';
+    window.location.href = '//' + domain + '/';
     return;
   }
   var slashed = parent + (parent[parent.length - 1] == '/' ? '' : '/')
@@ -176,7 +176,7 @@ function setPaneLinkText(list) {
 var links = [];
 var backend = (ownername ? ownername + '.' : '') + domain;
 
-$.getJSON( backend +
+$.getJSON('//' + backend +
     '/load/' + window.location.pathname.replace(/^\/[^\/]+\//, ''),
 function(m) {
   if (!m.directory) {
@@ -190,7 +190,7 @@ function(m) {
     for (var j = 0; j < m.list.length; ++j) {
       if (m.list[j].mode.indexOf('d') < 0) { continue; }
       var label = m.list[j].name;
-      var href = label + '.' + domain + '/home/';
+      var href = '//' + label + '.' + domain + '/home/';
       links.push({html:label, href:href});
     }
   } else {
