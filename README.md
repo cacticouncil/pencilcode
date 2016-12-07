@@ -1,6 +1,6 @@
 How To Build Standalone
 =======================
-From home directory on windows:
+After prerequisites and building pencilcode, go to home directory on windows:
 
 <pre>
 npm install electron
