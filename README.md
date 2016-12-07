@@ -1,11 +1,15 @@
 How To Build Standalone
 =======================
 After prerequisites and building pencilcode, go to home directory on windows:
-
 <pre>
 npm install electron
 .\node_modules\.bin\electron .
 </pre>
+
+How To Update Standalone
+=======================
+After making any changes to the source files, you must run grunt from home directory on WSL.
+
 
 How To Build and Test PencilCode
 ================================
