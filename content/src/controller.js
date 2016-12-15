@@ -14,8 +14,7 @@ var $                = require('jquery'),
     pencilTracer     = require('pencil-tracer'),
     icedCoffeeScript = require('iced-coffee-script'),
     drawProtractor   = require('draw-protractor'),
-    cache          = require('cache');
-	
+    cache            = require('cache');
 
 
 eval(see.scope('controller'));
@@ -433,12 +432,12 @@ function runAction() {
   }
 }
 
-$(window).on('beforeunload', function() {
-  if (view.isPaneEditorDirty(paneatpos('left')) && !nosaveowner()) {
-    view.flashButton('save');
-    return "There are unsaved changes."
-  }
-});
+//$(window).on('beforeunload', function() {
+//  if (view.isPaneEditorDirty(paneatpos('left')) && !nosaveowner()) {
+//    view.flashButton('save');
+//    return "There are unsaved changes."
+//  }
+//});
 
 view.on('logout', function() {
   model.username = null;
@@ -1809,32 +1808,18 @@ function instrumentCode(code, language) {
 }
 
 function runCodeAtPosition(position, doc, filename, emptyOnly) {
-  var m = modelatpos(position);
-  if (!m.running) {
-    cancelAndClearPosition(position);
-  }
-  m.running = true;
-  m.filename = filename;
-  var baseUrl = filename && (
-      window.location.protocol +
-      '//' + (model.ownername ? model.ownername + '.' : '') +
-      window.pencilcode.domain + '/home/' + filename);
-  var pane = paneatpos(position);
-  var setupScript = (model.setupScript || []).concat(
-      [{ src: "./lib/start-ide.js" }]);
-  var html = filetype.modifyForPreview(
-      doc, window.pencilcode.domain, filename, baseUrl,
-      emptyOnly, setupScript, instrumentCode);
-  // Delay allows the run program to grab focus _after_ the ace editor
-  // grabs focus.  TODO: investigate editor.focus() within on('run') and
-  // remove this setTimeout if we can make editor.focus() work without delay.
-  setTimeout(function() {
-    if (m.running) {
-      view.setPaneRunHtml(pane, html, filename, baseUrl,
-         // Do not enable fullscreen mode when no owner, or a nosaveowner.
-         model.ownername && !nosaveowner(), emptyOnly);
-    }
-  }, 1);
+    var m = modelatpos(position);
+    m.running || cancelAndClearPosition(position), m.running = !0, m.filename = filename;
+    var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/home/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
+        src: __dirname + "/lib/start-ide.js"
+    } ]), html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
+    // Delay allows the run program to grab focus _after_ the ace editor
+    // grabs focus.  TODO: investigate editor.focus() within on('run') and
+    // remove this setTimeout if we can make editor.focus() work without delay.
+    setTimeout(function() {
+        m.running && view.setPaneRunHtml(pane, html, filename, baseUrl, // Do not enable fullscreen mode when no owner, or a nosaveowner.
+        model.ownername && !nosaveowner(), emptyOnly);
+    }, 1);
 }
 
 function defaultDirSortingByDate() {
