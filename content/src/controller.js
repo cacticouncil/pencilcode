@@ -14,7 +14,13 @@ var $                = require('jquery'),
     pencilTracer     = require('pencil-tracer'),
     icedCoffeeScript = require('iced-coffee-script'),
     drawProtractor   = require('draw-protractor'),
+<<<<<<< HEAD
     cache            = require('cache');
+=======
+    cache          = require('cache');
+	
+
+>>>>>>> 08efafba98c06542c1b0159fbfbddb1ef6bf7054
 
 eval(see.scope('controller'));
 
@@ -65,6 +71,9 @@ var model = window.pencilcode.model = {
 
 function logEvent(name, data) {
   // $.get(' ' + name, data);
+   // $.getScript('loggingFunction.js', function () {          
+       logAction(name, data);
+    // });  
 }
 
 // Log events interesting for academic study: how often code is
@@ -78,6 +87,7 @@ function logCodeEvent(action, filename, code, mode, lang) {
   } else if (l == 'coffeescript') {
     l = 'cs';
   }
+  logCodeExecute(c);
   // $.get('' + filename + '?' +
       // action + '&mode=' + m + '&lang=' + l + '&code=' + c);
 }
