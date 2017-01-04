@@ -316,10 +316,10 @@ function effectiveMeta(input) {
     if (doc && doc.mime) {
       if (doc.mime.lastIndexOf('text/x-python', 0) === 0) {
         meta.type = 'text/x-python';
-        meta.libs = [{name: 'turtle', src: __dirname +  '/turtlebits.js'},
-                     {name: 'skulpt.min', src: __dirname +  '/lib/skulpt.min.js'},
-                     {name: 'skulpt-stdlib', src: __dirname +  '/lib/skulpt-stdlib.js'},
-                     {name: 'python-script', src: __dirname +  '/lib/python-script.js'}
+        meta.libs = [{name: 'turtle', src: "./turtlebits.js"},
+                     {name: 'skulpt.min', src: "./lib/skulpt.min.js"},
+                     {name: 'skulpt-stdlib', src: "./lib/skulpt-stdlib.js"},
+                     {name: 'python-script', src: "./lib/python-script.js"}
         ];
       }
       else {
@@ -332,7 +332,7 @@ function effectiveMeta(input) {
   }
   if (!meta.libs) {
     meta.libs = [
-      {name: 'turtle', src: __dirname + '/turtlebits.js'}
+      {name: 'turtle', src: "./turtlebits.js"}
     ];
   }
   return meta;

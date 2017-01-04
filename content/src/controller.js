@@ -14,13 +14,8 @@ var $                = require('jquery'),
     pencilTracer     = require('pencil-tracer'),
     icedCoffeeScript = require('iced-coffee-script'),
     drawProtractor   = require('draw-protractor'),
-<<<<<<< HEAD
     cache            = require('cache');
-=======
-    cache          = require('cache');
 	
-
->>>>>>> 08efafba98c06542c1b0159fbfbddb1ef6bf7054
 
 eval(see.scope('controller'));
 
@@ -1816,7 +1811,7 @@ function runCodeAtPosition(position, doc, filename, emptyOnly) {
     var m = modelatpos(position);
     m.running || cancelAndClearPosition(position), m.running = !0, m.filename = filename;
     var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/home/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
-        src: __dirname + "/lib/start-ide.js"
+        src: "./lib/start-ide.js"
     } ]), html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
     // Delay allows the run program to grab focus _after_ the ace editor
     // grabs focus.  TODO: investigate editor.focus() within on('run') and
