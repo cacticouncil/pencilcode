@@ -1628,14 +1628,16 @@ function paletteForPane(paneState, selfname) {
   var mimeType = editorMimeType(paneState).replace(/;.*$/, ''),
       basePalette = paneState.palette;
   if (!basePalette) {
+	  
     if (mimeType == 'text/x-pencilcode' || mimeType == 'text/coffeescript') {
       basePalette = palette.COFFEESCRIPT_PALETTE;
     }
-    if (mimeType == 'text/javascript' ||
-        mimeType == 'application/x-javascript') {
+	
+    if (mimeType == 'application/x-javascript' || mimeType == 'text/javascript') {
       basePalette = palette.JAVASCRIPT_PALETTE;
     }
-    if (/x-python/.test(mimeType)) {
+	
+    if (mimeType == 'text/x-python' || mimeType == /x-python/.test(mimeType)) {
         basePalette = palette.PYTHON_PALETTE;
     }
 
@@ -1653,7 +1655,7 @@ function dropletOptionsForMimeType(mimeType) {
   if (/x-python/.test(mimeType)) {
     return {
       functions: palette.PYTHON_FUNCTIONS//,
-//      categories: palette.PYTHON_CATEGORIES
+      //categories: palette.PYTHON_CATEGORIES
     };
   }
   if (mimeType.match(/^text\/html\b/)) {
@@ -1950,21 +1952,30 @@ function showPaneEditorLanguagesDialog(pane) {
   var opts = {leftopts: 1};
   opts.content =
       '<div style="text-align:left">' +
-      '<center>Languages</center>' +
-      '<div style="padding:8px 5px 4px">' +
+      '<center>Languages</center>' +	  
+	  '<div style="padding:8px 5px 4px">' +
+	  
       '<label title="Use a Concise Indent Language">' +
       '<input type="radio" value="text/coffeescript" name="lang"> ' +
-      'Coffeescript</label><br>' +
+      'CoffeeScript</label><br>' +
+	  
       '<label title="Use the Standard Web Language">' +
       '<input type="radio" value="text/javascript" name="lang"> ' +
-      'Javascript</label>' +
-      '</div>' +
+      'JavaScript</label><br>' +
+	  
+	  '<label title="Use the High-Level General Purpose Programming Language">' +
+	  '<input type="radio" value="text/x-python" name="lang"> ' +
+	  'Python</label><br>' +
+	  '</div>' +
+	  
       '<div style="padding:4px 5px 12px">' +
       '<label title="Edit Cascading Style Sheets">' +
       '<input type="checkbox" class="css"> CSS</label><br>' +
-      '<label title="Edit Hypertext Markup Language">' +
+	  
+      '<label title="Edit HyperText Markup Language">' +
       '<input type="checkbox" class="html"> HTML</label>' +
       '</div>' +
+	  
       '<center style="padding-top:5px">Libraries</center>' +
       '<div style="padding:8px 5px 15px">' +
       '<label title="Include jQuery, LoDash, and jQ-Turtle">' +
@@ -2039,7 +2050,7 @@ function showPaneEditorLanguagesDialog(pane) {
       change = true;
     }
     if (state.bits != hasBits || state.turtle != hasTurtle) {
-      var lib = { name: 'turtle', src: "./turtlebits.js" };
+      var lib = { name: 'turtle', src: './turtlebits.js' };
       if (!state.turtle) { lib.attrs = { turtle: 'false' }; }
       if (!paneState.meta) { paneState.meta = {}; }
       toggleLibrary(paneState.meta, lib, state.bits);
