@@ -264,7 +264,7 @@ function modifyForPreview(doc, domain, filename, targetUrl, pragmasOnly, sScript
 
 
 function mimeForFilename(filename) {
-  var result = filename && filename.indexOf('.') > 0 && {
+  var result = filename && filename.lastIndexOf('.') > 0 && {
     'jpg'  : 'image/jpeg',
     'jpeg' : 'image/jpeg',
     'gif'  : 'image/gif',
