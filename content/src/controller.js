@@ -14,7 +14,7 @@ var $                = require('jquery'),
     pencilTracer     = require('pencil-tracer'),
     icedCoffeeScript = require('iced-coffee-script'),
     drawProtractor   = require('draw-protractor'),
-    cache            = require('cache');
+    cache          = require('cache');
 
 
 eval(see.scope('controller'));
@@ -65,26 +65,28 @@ var model = window.pencilcode.model = {
 };
 
 function logEvent(name, data) {
-  // $.get(' ' + name, data);
-   // $.getScript('loggingFunction.js', function () {          
-       logAction(name, data);
-    // });  
+	///
+	// needs to be replaced with scotts
+	///
+  $.get(name, data);
 }
 
 // Log events interesting for academic study: how often code is
 // run, which code it is, and which mode the editor is in.
 function logCodeEvent(action, filename, code, mode, lang) {
-  var c = encodeURIComponent(code.substring(0, 1024)).
-          replace(/%20/g, '+').replace(/%0A/g, '|').replace(/%2C/g, ','),
-      m = mode ? 'b' : 't', l = lang ? lang : 'n';
-  if (l == 'javascript') {
-    l = 'js';
-  } else if (l == 'coffeescript') {
-    l = 'cs';
-  }
-  logCodeExecute(c);
-  // $.get('' + filename + '?' +
-      // action + '&mode=' + m + '&lang=' + l + '&code=' + c);
+	///
+	// needs to be replaced with scots
+	///
+// var c = encodeURIComponent(code.substring(0, 1024)).
+//         replace(/%20/g, '+').replace(/%0A/g, '|').replace(/%2C/g, ','),
+//     m = mode ? 'b' : 't', l = lang ? lang : 'n';
+// if (l == 'javascript') {
+//   l = 'js';
+// } else if (l == 'coffeescript') {
+//   l = 'cs';
+// }
+// $.get('/log/' + filename + '?' +
+//     action + '&mode=' + m + '&lang=' + l + '&code=' + c);
 }
 
 //
@@ -143,7 +145,7 @@ function cansave() {
 }
 
 function updateTopControls(addHistory) {
-	var m = modelatpos('left');
+		var m = modelatpos('left');
 	// Update visible URL and main title name.
 	view.setNameText("Pencil Code Editor");
 	var slashed = m.filename;
@@ -163,7 +165,8 @@ function updateTopControls(addHistory) {
         title: 'Toggle split screen',
         label: '<i class="splitscreenicon"></i>'
     });
-  // buttons.push({id: 'done', label: 'Done', title: 'tooltip text'});
+	
+	  // buttons.push({id: 'done', label: 'Done', title: 'tooltip text'});
   view.showButtons(buttons);
   // Update middle button.
   if (m.data && m.data.file ||
@@ -190,7 +193,6 @@ function updateTopControls(addHistory) {
   view.setPaneEditorReadOnly(paneatpos('back'), true);
   view.setPaneEditorReadOnly(paneatpos('left'), !model.editmode);
 }
-
 //
 // Set up some logging event handlers.
 //
@@ -239,7 +241,7 @@ view.on('new', function() {
     if (directoryname == '/') {
       directoryname = '';
     }
-    window.location.href = '/edit/' + directoryname + untitled;
+    window.location.href = directoryname + untitled;
   });
 });
 
@@ -432,12 +434,12 @@ function runAction() {
   }
 }
 
-//$(window).on('beforeunload', function() {
-//  if (view.isPaneEditorDirty(paneatpos('left')) && !nosaveowner()) {
-//    view.flashButton('save');
-//    return "There are unsaved changes."
-//  }
-//});
+$(window).on('beforeunload', function() {
+  if (view.isPaneEditorDirty(paneatpos('left')) && !nosaveowner()) {
+    view.flashButton('save');
+    return "There are unsaved changes."
+  }
+});
 
 view.on('logout', function() {
   model.username = null;
@@ -1033,8 +1035,7 @@ function signUpAndSave(options) {
             storage.deleteBackup(mp.filename);
             storage.deleteBackup(rename);
             view.flashNotification('Saved.');
-            var hostpath = username + '.' + window.pencilcode.domain +
-                  '/edit/' + rename,
+            var hostpath = username + '.' + window.pencilcode.domain + rename,
                 newurl = '//' + hostpath +
                   '#login=' + username + ':' + (key ? key : '');
             if (model.guideUrl) {
@@ -1363,7 +1364,7 @@ view.on('done', function() {
 function doneWithFile(filename) {
   if (!filename || !model.ownername) {
     if (window.location.href ==
-      '//' + window.pencilcode.domain + '/edit/') {
+      '//' + window.pencilcode.domain) {
       window.location.href = '//' + window.pencilcode.domain + '/';
     } else {
       // Do nothing when clicking the folder icon when at the root
@@ -1377,7 +1378,7 @@ function doneWithFile(filename) {
     } else {
       filename = '';
     }
-    var newUrl = (model.editmode ? '/edit/' : '/home/') + filename;
+    var newUrl = filename;
     // A trick: if 'back' would be the same as going to the parent,
     // then just do a 'back'.
     if (history.state && history.state.depth > 0 &&
@@ -1808,18 +1809,33 @@ function instrumentCode(code, language) {
 }
 
 function runCodeAtPosition(position, doc, filename, emptyOnly) {
-    var m = modelatpos(position);
-    m.running || cancelAndClearPosition(position), m.running = !0, m.filename = filename;
-    var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/home/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
-        src: "./lib/start-ide.js"
-    } ]), html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
-    // Delay allows the run program to grab focus _after_ the ace editor
-    // grabs focus.  TODO: investigate editor.focus() within on('run') and
-    // remove this setTimeout if we can make editor.focus() work without delay.
-    setTimeout(function() {
-        m.running && view.setPaneRunHtml(pane, html, filename, baseUrl, // Do not enable fullscreen mode when no owner, or a nosaveowner.
-        model.ownername && !nosaveowner(), emptyOnly);
-    }, 1);
+  var m = modelatpos(position);
+  if (!m.running) {
+    cancelAndClearPosition(position);
+  }
+  m.running = true;
+  m.filename = filename;
+  var baseUrl = filename && (
+      window.location.protocol +
+      '//' + (model.ownername ? model.ownername + '.' : '') +
+	  // add port manually to domain (for standalone only)
+      window.pencilcode.domain + ":8080/content/" + filename); // window.pencilcode.domain + /home/ + filename);
+  var pane = paneatpos(position);
+  var setupScript = (model.setupScript || []).concat(
+      [{ src: "//{site}/lib/start-ide.js" }]);
+  var html = filetype.modifyForPreview(
+      doc, window.pencilcode.domain, filename, baseUrl,
+      emptyOnly, setupScript, instrumentCode);
+  // Delay allows the run program to grab focus _after_ the ace editor
+  // grabs focus.  TODO: investigate editor.focus() within on('run') and
+  // remove this setTimeout if we can make editor.focus() work without delay.
+  setTimeout(function() {
+    if (m.running) {
+      view.setPaneRunHtml(pane, html, filename, baseUrl,
+         // Do not enable fullscreen mode when no owner, or a nosaveowner.
+         model.ownername && !nosaveowner(), emptyOnly);
+    }
+  }, 1);
 }
 
 function defaultDirSortingByDate() {
@@ -2030,7 +2046,7 @@ function getUpdatedLinksArray(pane) {
       var name = m.list[j].name;
       if (model.ownername === '' && filename === '') {
         if (m.list[j].mode.indexOf('d') < 0) { continue; }
-        var href = '//' + name + '.' + window.pencilcode.domain + '/edit/';
+        var href = '//' + name + '.' + window.pencilcode.domain;
         links.push({
           name: name,
           href: href,
@@ -2051,7 +2067,7 @@ function getUpdatedLinksArray(pane) {
         } else {
           type = filetype.mimeForFilename(name).replace(/;.*$/, '');
         }
-        var href = '/edit/' + filenameslash + name;
+        var href =filenameslash + name;
         links.push({
             name: name,
             link: name,

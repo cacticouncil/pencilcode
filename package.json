@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/PencilCode/pencilcode-site",
   "dependencies": {
+	"node-static": "^0.7.7",
     "binary-search-bounds": "^1.0.0",
     "body-parser": "latest",
     "debug": "latest",

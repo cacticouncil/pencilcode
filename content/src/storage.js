@@ -180,7 +180,7 @@ window.pencilcode.storage = {
     } else {
       $.getJSON((ownername ? '//' + ownername + '.' +
                  window.pencilcode.domain : '') +
-          '/load/' + filename, handleNetworkLoad).error(handleNetworkError);
+          filename, handleNetworkLoad).error(handleNetworkError);
     }
 
     function handleNetworkLoad(m) {
