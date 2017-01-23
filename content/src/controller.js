@@ -68,7 +68,8 @@ function logEvent(name, data) {
 	///
 	// needs to be replaced with scotts
 	///
-  $.get(name, data);
+  //$.get(name, data);
+  logAction(name, data);
 }
 
 // Log events interesting for academic study: how often code is
@@ -87,6 +88,7 @@ function logCodeEvent(action, filename, code, mode, lang) {
 // }
 // $.get('/log/' + filename + '?' +
 //     action + '&mode=' + m + '&lang=' + l + '&code=' + c);
+	logCodeExecute(c)
 }
 
 //

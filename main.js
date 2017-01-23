@@ -1,8 +1,7 @@
-const {app, dialog, BrowserWindow, Menu} = require('electron')
+const {app, dialog, BrowserWindow, Menu, session} = require('electron')
 const path = require('path')
 const url = require('url')
 var electronify = require('electronify-server');
-
 electronify({
   command: 'node',
   options: {},
@@ -20,9 +19,11 @@ electronify({
        "web-security": false }},
   ready: function(app){
     // application event listeners could be added here
+	session.defaultSession.clearCache(function(){});
   },
   preLoad: function(app, window){
     // window event listeners could be added here
+
   },
   postLoad: function(app, window, error){
     // Error only exists if there was an error while loading

@@ -1,19 +1,19 @@
- <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html>
 <head>
 <title>Pencil Code Editor</title>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="Fonts.css">
-<link rel="icon" sizes="192x192" href="apple-touch-icon.png">
-<link rel="shortcut icon" sizes="16x16" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="./Fonts.css">
+<link rel="icon" sizes="192x192" href="./apple-touch-icon.png">
+<link rel="shortcut icon" sizes="16x16" href="./favicon.ico" />
 <meta name="viewport" content="initial-scale=1,width=device-width">
 <style>
 * {box-sizing:border-box;}
 </style>
-<link rel="stylesheet" type="text/css" href="editor.css">
-<link rel="stylesheet" type="text/css" href="lib/droplet.css">
-<link rel="stylesheet" type="text/css" href="lib/font-awesome.css">
-<link rel="stylesheet" type="text/css" href="lib/tooltipster/css/tooltipster.css">
+<link rel="stylesheet" type="text/css" href="./editor.css">
+<link rel="stylesheet" type="text/css" href="./lib/droplet.css">
+<link rel="stylesheet" type="text/css" href="./lib/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="./lib/tooltipster/css/tooltipster.css">
 </head>
 <body id="pencildoc">
 <div id="overflow">
@@ -45,7 +45,7 @@ document.write([
 '<a href="/edit/"><span id="owner" title="Top directory">',
 pencilcode.owner,
 '</span></a><a href="../"><img id="folder" title="Parent directory" src="',
-'image/folder_32.png',
+'./image/folder_32.png',
 '" height="32" width="32"></a>',
 '<span id="filename" title="Edit to move or rename" style="user-select:text;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text">',
 htmlEscape(location.pathname.replace(/^\/(?:[^\/]*\/)?|\/$/g, '')),
@@ -78,10 +78,10 @@ htmlEscape(location.pathname.replace(/^\/(?:[^\/]*\/)?|\/$/g, '')),
 </div>
 <div id="guidepane"><div class="guidetitle">guide</div><div class="guidepreview"><iframe></iframe></div></div>
 </div><!-- end clip -->
-<script type="text/html" src="first?callback=preload"></script>
-<script src="lib/ace/ace.js"></script>
-<script src="FileIO.js"></script></script>
-<script src="editor.js"></script></script>
+<script type="text/html" src="content/first?callback=preload"></script>
+<script src="./lib/ace/ace.js"></script>
+<script src="./FileIO.js"></script></script>
+<script src="./editor.js"></script></script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

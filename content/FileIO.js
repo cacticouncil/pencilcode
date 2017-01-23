@@ -4,17 +4,22 @@ function logAction(name, data){
                // if (err) {
 					// throw err;
 			// }
-				var outdata = "";
-				//fs.appendFile('LogFile', 'data to append', 'utf8', callback);
-				if (name === "~pickblock"){
-					outdata = data.id;				}else{
-				outdata = data.name;
-			}fs.appendFile('LogFile', new Date().toLocaleString() + " " + name + " " + outdata + "\n", (err) => {
-					if (err) throw err;
-				console.log('The "data to append" was appended to file!');
-					});
+				// var outdata = "";
+				// //fs.appendFile('LogFile', 'data to append', 'utf8', callback);
+				// if (name === "~pickblock"){
+					// outdata = data.id;				}else{
+				// outdata = data.name;
+			// }fs.appendFile('LogFile', new Date().toLocaleString() + " " + name + " " + outdata + "\n", (err) => {
+					// if (err) throw err;
+				// console.log('The "data to append" was appended to file!');
+					// });
+				// });
+			  // //
+			  fs.appendFile('LogFile', new Date().toLocaleString() + " " + name + " " + data + "\n", (err) => {
+				   if (err) throw err;
+				 console.log('The "data to append" was appended to file!');
 				});
-			  //
+				
 }
 
 function logCodeExecute(c){
