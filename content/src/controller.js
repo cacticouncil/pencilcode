@@ -1808,9 +1808,12 @@ function instrumentCode(code, language) {
 }
 
 function runCodeAtPosition(position, doc, filename, emptyOnly) {
+	// for standalone
+	var drive = location.pathname[1];
     var m = modelatpos(position);
     m.running || cancelAndClearPosition(position), m.running = !0, m.filename = filename;
-    var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/home/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
+	// TODO: for baseUrl we need to add a check for standalone vs the website
+    var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/" + drive + ":/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
         src: "./lib/start-ide.js"
     } ]), html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
     // Delay allows the run program to grab focus _after_ the ace editor
