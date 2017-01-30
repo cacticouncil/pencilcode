@@ -163,6 +163,19 @@ function updateTopControls(addHistory) {
         title: 'Toggle split screen',
         label: '<i class="splitscreenicon"></i>'
     });
+	
+	buttons.push({
+		id: 'standaloneFile',
+		title: 'Load and Save editor code files',
+		label: 'File',
+		menu: [{
+			id: 'standaloneSave',
+			label: 'Save'
+		}, {
+			id: 'standaloneLoad',
+			label: 'Load'
+		}]
+	});
   // buttons.push({id: 'done', label: 'Done', title: 'tooltip text'});
   view.showButtons(buttons);
   // Update middle button.
@@ -540,6 +553,52 @@ view.on('screenshot', function() {
     view.flashThumbnail(thumbnailDataUrl);
   });
 });
+
+/* Save click event */
+function standaloneSave()
+{
+	var content = this.pencilcode.view.getPaneEditorData('bravo').data;
+	//var coffeeScriptFocused = this.pencilcode.view.dropletOptionsForMimeType('text/coffeescript');
+	//var javaScriptFocused = this.pencilcode.view.dropletOptionsForMimeType('text/javascript');
+	//var pythonFocused = this.pencilcode.view.dropletOptionsForMimeType('text/x-python');
+	
+	var filepath = '\editorCode.js';
+	standaloneEditorSave(filepath, content);
+	console.log(filepath + ' was saved to root folder');
+	view.flashNotification(filepath + ' was saved to root folder', false);
+	
+	/*if(content == "") {
+		console.log('There is no code in the editor to save...');
+		view.flashNotification('There is no code in the editor to save...', false);
+	}
+	else if(coffeeScriptFocused) {
+		var filepath = '\editorCode.cs';
+		standaloneEditorSave(filepath, content);
+		console.log(filepath + ' was saved to root folder');
+		view.flashNotification(filepath + ' was saved to root folder', false);
+	}
+	else if(javaScriptFocused) {
+		var filepath = '\editorCode.js';
+		standaloneEditorSave(filepath, content);
+		console.log(filepath + ' was saved to root folder');
+		view.flashNotification(filepath + ' was saved to root folder', false);
+	}
+	else if(pythonFocused) {
+		var filepath = '\editorCode.py';
+		standaloneEditorSave(filepath, content);
+		console.log(filepath + ' was saved to root folder');
+		view.flashNotification(filepath + ' was saved to root folder', false);
+	}*/
+}
+
+/* Load click event */
+function standaloneLoad()
+{
+	
+}
+
+view.on('standaloneSave', standaloneSave);
+view.on('standaloneLoad', standaloneLoad);
 
 view.on('save', function() { saveAction(false, null, null); });
 view.on('save2', function() { saveAction(false, null, null); });
