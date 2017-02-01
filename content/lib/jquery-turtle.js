@@ -2685,7 +2685,7 @@ function apiUrl(url, topdir) {
 }
 // Creates an image url from a potentially short name.
 function imgUrl(url) {
-  if (/\//.test(url)) { return url; }
+  if (/\//.test(url)) { return "./image" + url + ".jpg"; }
   url = '/img/' + url;
   if (isPencilHost(global.location.hostname)) { return url; }
   return '//pencilcode.net' + url;

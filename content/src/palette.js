@@ -65,7 +65,7 @@ var distances = ['25', '50', '100', '200'],
     scales = ['0.5', '2.0', '3.0'],
     randarg = ['100', '[true, false]', 'normal', 'position', 'color'],
     colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black'];
-
+	
 var py_types = {
     distances: ['25', '50', '100', '200'],
     sdistances: ['100', '50', '-50', '-100'],
@@ -1351,7 +1351,7 @@ module.exports = {
     '?.fill': {color: 'purple', dropdown: [colors]},
     '?.dot': {color: 'purple', dropdown: [colors, sizes]},
     '?.box': {color: 'purple', dropdown: [colors, sizes]},
-    '?.img': {color: 'purple'},
+    '?.img': {color: 'purple', dropdown: [pictures]},
     '?.mirror': {color: 'purple'},
     '?.twist': {color: 'purple', dropdown: [sangles]},
     '?.scale': {color: 'purple', dropdown: [scales]},
