@@ -25,22 +25,78 @@ function logCodeExecute(c){
 	});
 }
 
-function standaloneEditorSave(filepath, content) {
-// TODO: Check whether or not the file is being saved as a .js, .cs, or .py
-// TODO: Allow the user to save his/her file to a specific location
-// TODO: Allow the user to name his/her file respectively
-	var fs = require('fs');
-	var path = filepath;
-	var data = content;
-	//require('child_process').exec('start "" "c:\\test"');
-	fs.writeFile(path, data, 'utf8', function(err) {
-		if(err)
-			console.error('Error: ' + err.message);
-		else
-			console.log('Successful write');
+var app = require('electron').remote; // Load remote compnent that contains the dialog dependency
+var dialog = app.dialog; // Load the dialogs component of the OS
+var fs = require('fs'); // Load the file explorer to execute our common tasks (CRUD)
+
+/* Save File Methods*/
+function standaloneEditorCoffeeScriptSaveAs(coffeeScriptContent) {
+	var data = coffeeScriptContent;
+	dialog.showSaveDialog({ filters: [{ name: 'coffeescript', extensions: ['coffee'] }]}, function(fileName) {
+		if(fileName == undefined)
+			return;
+		fs.writeFile(fileName, data, 'utf8', function(err) {
+			if(err)
+				console.error('Error: ' + err.message);
+			else
+			{
+				dialog.showMessageBox({ message: 'The CoffeeScript file has been saved!', buttons: ["Ok"] });
+				console.log('Successful write');
+			}
+		});
 	});
 }
 
-function standaloneEditorLoad() {
+function standaloneEditorJavaScriptSaveAs(javaScriptContent) {
+	var data = javaScriptContent;
+	dialog.showSaveDialog({ filters: [{ name: 'javascript', extensions: ['js'] }]}, function(fileName) {
+		if(fileName == undefined)
+			return;
+		fs.writeFile(fileName, data, 'utf8', function(err) {
+			if(err)
+				console.error('Error: ' + err.message);
+			else
+			{
+				dialog.showMessageBox({ message: 'The JavaScript file has been saved!', buttons: ["Ok"] });
+				console.log('Successful write');
+			}
+		});
+	});
+}
 
+function standaloneEditorPythonSaveAs(pythonContent) {
+	var data = pythonContent;
+	dialog.showSaveDialog({ filters: [{ name: 'python', extensions: ['py'] }]}, function(fileName) {
+		if(fileName == undefined)
+			return;
+		fs.writeFile(fileName, data, 'utf8', function(err) {
+			if(err)
+				console.error('Error: ' + err.message);
+			else
+			{
+				dialog.showMessageBox({ message: 'The Python file has been saved!', buttons: ["Ok"] });
+				console.log('Successful write');
+			}
+		});
+	});
+}
+
+/* Load File Methods */
+function standaloneEditorCoffeeScriptLoad() {
+	dialog.showOpenDialog(function(fileName) {
+		if(fileName == undefined)
+			return;
+		else
+			readFile(fileName[0]);
+	});
+}
+
+function readFile(filePath) {
+	var data;
+	fs.readFile(filePath, 'utf8', function(err, data) {
+		if(err)
+			console.error('Error: ' + err.message);
+		else
+			console.log(data);
+	});
 }
