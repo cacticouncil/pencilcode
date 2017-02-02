@@ -1351,7 +1351,7 @@ module.exports = {
     '?.fill': {color: 'purple', dropdown: [colors]},
     '?.dot': {color: 'purple', dropdown: [colors, sizes]},
     '?.box': {color: 'purple', dropdown: [colors, sizes]},
-    '?.img': {color: 'purple', dropdown: [pictures]},
+    '?.img': {color: 'purple'},
     '?.mirror': {color: 'purple'},
     '?.twist': {color: 'purple', dropdown: [sangles]},
     '?.scale': {color: 'purple', dropdown: [scales]},
