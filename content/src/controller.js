@@ -166,11 +166,11 @@ function updateTopControls(addHistory) {
 	
 	buttons.push({
 		id: 'standaloneFile',
-		title: 'Load and Save editor code files',
+		title: 'Pencilcode File System Options',
 		label: 'File',
 		menu: [{
-			id: 'standaloneSave',
-			label: 'Save'
+			id: 'standaloneSaveAs',
+			label: 'Save As'
 		}, {
 			id: 'standaloneLoad',
 			label: 'Load'
@@ -554,50 +554,35 @@ view.on('screenshot', function() {
   });
 });
 
-/* Save click event */
-function standaloneSave()
+/* Save File Click Event */
+function standaloneSaveAs()
 {
 	var content = this.pencilcode.view.getPaneEditorData('bravo').data;
-	//var coffeeScriptFocused = this.pencilcode.view.dropletOptionsForMimeType('text/coffeescript');
-	//var javaScriptFocused = this.pencilcode.view.dropletOptionsForMimeType('text/javascript');
-	//var pythonFocused = this.pencilcode.view.dropletOptionsForMimeType('text/x-python');
+	standaloneEditorCoffeeScriptSaveAs(content);
 	
-	var filepath = '\editorCode.js';
-	standaloneEditorSave(filepath, content);
-	console.log(filepath + ' was saved to root folder');
-	view.flashNotification(filepath + ' was saved to root folder', false);
-	
+	// This is where the saving of specific filetypes will be handled (based on the buttons)
 	/*if(content == "") {
 		console.log('There is no code in the editor to save...');
 		view.flashNotification('There is no code in the editor to save...', false);
 	}
-	else if(coffeeScriptFocused) {
-		var filepath = '\editorCode.cs';
-		standaloneEditorSave(filepath, content);
-		console.log(filepath + ' was saved to root folder');
-		view.flashNotification(filepath + ' was saved to root folder', false);
+	else if(mimeType == 'text/coffeescript') {
+		standaloneEditorCoffeeScriptSaveAs(content);
 	}
-	else if(javaScriptFocused) {
-		var filepath = '\editorCode.js';
-		standaloneEditorSave(filepath, content);
-		console.log(filepath + ' was saved to root folder');
-		view.flashNotification(filepath + ' was saved to root folder', false);
+	else if(mimeType == 'text/javascript') {
+		standaloneEditorJavaScriptSaveAs(content);
 	}
-	else if(pythonFocused) {
-		var filepath = '\editorCode.py';
-		standaloneEditorSave(filepath, content);
-		console.log(filepath + ' was saved to root folder');
-		view.flashNotification(filepath + ' was saved to root folder', false);
+	else if(mimeType == 'text/x-python') {
+		standaloneEditorPythonSaveAs(content);
 	}*/
 }
 
-/* Load click event */
+/* Load File Click Event */
 function standaloneLoad()
 {
-	
+	standaloneEditorCoffeeScriptLoad();
 }
 
-view.on('standaloneSave', standaloneSave);
+view.on('standaloneSaveAs', standaloneSaveAs);
 view.on('standaloneLoad', standaloneLoad);
 
 view.on('save', function() { saveAction(false, null, null); });
