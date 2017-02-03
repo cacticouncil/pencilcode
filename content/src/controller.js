@@ -579,8 +579,20 @@ function standaloneSaveAs()
 /* Load File Click Event */
 function standaloneLoad()
 {
-	standaloneEditorCoffeeScriptLoad();
+	dialog.showOpenDialog(function(fileName) {
+	if(fileName == undefined)
+		return;
+	else
+		readFile(fileName[0]);
+	});
+	
 }
+
+function readFile(filePath) {
+	var data = fs.readFileSync(filePath, 'utf8');
+	view.setPaneEditorData(view.paneid('left'), {data: data}, filePath, true);
+}
+
 
 view.on('standaloneSaveAs', standaloneSaveAs);
 view.on('standaloneLoad', standaloneLoad);
