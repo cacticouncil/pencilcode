@@ -80,23 +80,3 @@ function standaloneEditorPythonSaveAs(pythonContent) {
 		});
 	});
 }
-
-/* Load File Methods */
-function standaloneEditorCoffeeScriptLoad() {
-	dialog.showOpenDialog(function(fileName) {
-		if(fileName == undefined)
-			return;
-		else
-			readFile(fileName[0]);
-	});
-}
-
-function readFile(filePath) {
-	var data;
-	fs.readFile(filePath, 'utf8', function(err, data) {
-		if(err)
-			console.error('Error: ' + err.message);
-		else
-			console.log(data);
-	});
-}

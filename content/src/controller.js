@@ -558,22 +558,39 @@ view.on('screenshot', function() {
 function standaloneSaveAs()
 {
 	var content = this.pencilcode.view.getPaneEditorData('bravo').data;
-	standaloneEditorCoffeeScriptSaveAs(content);
 	
-	// This is where the saving of specific filetypes will be handled (based on the buttons)
-	/*if(content == "") {
-		console.log('There is no code in the editor to save...');
-		view.flashNotification('There is no code in the editor to save...', false);
+	// This is where the saving of specific filetypes will be handled (based on the buttons)	
+	var isPaneEditorLanguage = view.getPaneEditorLanguage(paneatpos('left'));
+	
+	if(isPaneEditorLanguage == 'coffeescript') {
+		if(content == "")
+		{
+			view.flashNotification('There is no CoffeeScript code in the editor to save', false);
+			return;
+		}
+		else
+			standaloneEditorCoffeeScriptSaveAs(content);
 	}
-	else if(mimeType == 'text/coffeescript') {
-		standaloneEditorCoffeeScriptSaveAs(content);
+	
+	if(isPaneEditorLanguage == 'javascript') {
+		if(content == "")
+		{			
+			view.flashNotification('There is no JavaScript code in the editor to save', false);
+			return;
+		}
+		else
+			standaloneEditorJavaScriptSaveAs(content);
 	}
-	else if(mimeType == 'text/javascript') {
-		standaloneEditorJavaScriptSaveAs(content);
+	
+	if(isPaneEditorLanguage == 'python') {
+		if(content == "")
+		{
+			view.flashNotification('There is no Python code in the editor to save', false);
+			return;
+		}
+		else
+			standaloneEditorPythonSaveAs(content);
 	}
-	else if(mimeType == 'text/x-python') {
-		standaloneEditorPythonSaveAs(content);
-	}*/
 }
 
 /* Load File Click Event */
