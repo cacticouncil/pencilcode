@@ -590,7 +590,12 @@ function standaloneLoad()
 
 function readFile(filePath) {
 	var data = fs.readFileSync(filePath, 'utf8');
+
+	
 	view.setPaneEditorData(view.paneid('left'), {data: data}, filePath, true);
+
+	
+	//view.changePaneEditorText(view.paneid('left'), data);
 }
 
 

@@ -2318,7 +2318,7 @@ function setPaneEditorData(pane, doc, filename, useblocks) {
   var meta = copyJSON(doc.meta);
   var paneState = state.pane[pane];
   paneState.filename = filename;
-  paneState.mimeType = filetype.mimeForFilename(filename);
+  paneState.mimeType = "text/x-pencilcode;charset=utf-8";
   paneState.cleanText = text;
   paneState.cleanMeta = JSON.stringify(meta);
   paneState.dirtied = false;
