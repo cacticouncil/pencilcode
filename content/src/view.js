@@ -2050,7 +2050,14 @@ function showPaneEditorLanguagesDialog(pane) {
       change = true;
     }
     if (state.bits != hasBits || state.turtle != hasTurtle) {
+	  var lib = null;
+	  if (window.location.protocol == "file:"){
       var lib = { name: 'turtle', src: './turtlebits.js' };
+	  }
+	  else
+	  {
+		  var lib = { name: 'turtle', src: '//{site}/turtlebits.js' };
+	  }
       if (!state.turtle) { lib.attrs = { turtle: 'false' }; }
       if (!paneState.meta) { paneState.meta = {}; }
       toggleLibrary(paneState.meta, lib, state.bits);
