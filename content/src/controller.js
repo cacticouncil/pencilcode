@@ -253,9 +253,19 @@ view.on('new', function() {
       directoryname = '';
     }
     window.location.href = '/edit/' + directoryname + untitled;
+	
   });
 });
+// window.on('load', function {
+	// view.setPreviewMode(!view.getPreviewMode());
+	// readFile('./LoadScript.coffe');
+// });
 
+function loadproper(){
+	view.setPreviewMode(!view.getPreviewMode());
+	readFile('./content/LoadScript.coffee');
+}
+window.addEventListener('load', loadproper);
 var lastSharedName = '';
 
 view.on('share', function() {
