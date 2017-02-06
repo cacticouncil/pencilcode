@@ -253,9 +253,19 @@ view.on('new', function() {
       directoryname = '';
     }
     window.location.href = '/edit/' + directoryname + untitled;
+	
   });
 });
+// window.on('load', function {
+	// view.setPreviewMode(!view.getPreviewMode());
+	// readFile('./LoadScript.coffe');
+// });
 
+function loadproper(){
+	view.setPreviewMode(!view.getPreviewMode());
+	readFile('./content/LoadScript.coffee');
+}
+window.addEventListener('load', loadproper);
 var lastSharedName = '';
 
 view.on('share', function() {
@@ -1891,9 +1901,29 @@ function runCodeAtPosition(position, doc, filename, emptyOnly) {
     var m = modelatpos(position);
     m.running || cancelAndClearPosition(position), m.running = !0, m.filename = filename;
 	// TODO: for baseUrl we need to add a check for standalone vs the website
-    var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/" + drive + ":/" + filename, pane = paneatpos(position), setupScript = (model.setupScript || []).concat([ {
+	if (window.location.protocol == "file:")
+    {
+		var baseUrl = filename && window.location.protocol + "//" + (model.ownername ? model.ownername + "." : "") + window.pencilcode.domain + "/" + drive + ":/" + filename;
+		
+	var pane = paneatpos(position), 
+	setupScript = (model.setupScript || []).concat([ {
         src: "./lib/start-ide.js"
-    } ]), html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
+    } ]), 
+	html = filetype.modifyForPreview(doc, window.pencilcode.domain, filename, baseUrl, emptyOnly, setupScript, instrumentCode);
+	}
+	else 
+	{
+		baseUrl = filename && (
+      window.location.protocol +
+      '//' + (model.ownername ? model.ownername + '.' : '') +
+      window.pencilcode.domain + '/home/' + filename);
+	    var pane = paneatpos(position);
+		var setupScript = (model.setupScript || []).concat(
+			[{ src: "//{site}/lib/start-ide.js" }]);
+		var html = filetype.modifyForPreview(
+			doc, window.pencilcode.domain, filename, baseUrl,
+			emptyOnly, setupScript, instrumentCode);
+	}
     // Delay allows the run program to grab focus _after_ the ace editor
     // grabs focus.  TODO: investigate editor.focus() within on('run') and
     // remove this setTimeout if we can make editor.focus() work without delay.

@@ -39,21 +39,6 @@ function createWindow () {
   win.on('before-quit', () => {
 	app.exit(0)
   })
-  // title_str will give me page title. ex. "Pencil Code", "Pencil Code Editor"
-  // useful for deciding wether or not to have load/save enabled
-  win.on('page-title-updated', (e, title_str) => {
-    page_title = title_str
-    console.log(page_title)
-    if (page_title == "Pencil Code Editor")
-    {
-      for (i = 0; i < 3; i++)
-          menu.items[0].submenu.items[i].enabled = true;
-    }
-    else {
-        for (i = 0; i < 3; i++)
-          menu.items[0].submenu.items[i].enabled = false;
-    }
-  })
 }
 
 // This method will be called when Electron has finished
@@ -87,69 +72,6 @@ app.on('before-quit', () => {
 // creates menu
 const template = [
   {
-    label: 'File',
-    submenu: [
-      {
-        label: 'New',
-        click (item, focusedWindow) {
-          console.log(focusedWindow.location.href)
-        }
-      },
-      {
-        label: 'Load',
-        click (item, focusedWindow) {
-			console.log(__dirname + '/editor.js')
-			var editor = require(__dirname + '/editor.js')
-			console.log(typeofeditor.this.pencilcode.view.getPaneEditorData("bravo"))
-        }
-      },
-      {
-        label: 'Save',
-        click(item, focusedWindow)  {
-          console.log(focusedWindow.location.href)
-        }
-      },
-      {
-        label: 'Exit',
-        click (item, focusedWindow) {
-          app.exit(0)
-        }
-      }
-    ]
-  },
-  {
-    label: 'Edit',
-    submenu: [
-      {
-        role: 'undo'
-      },
-      {
-        role: 'redo'
-      },
-      {
-        type: 'separator'
-      },
-      {
-        role: 'cut'
-      },
-      {
-        role: 'copy'
-      },
-      {
-        role: 'paste'
-      },
-      {
-        role: 'pasteandmatchstyle'
-      },
-      {
-        role: 'delete'
-      },
-      {
-        role: 'selectall'
-      }
-    ]
-  },
-  {
     label: 'View',
     submenu: [
       {
@@ -165,45 +87,6 @@ const template = [
         click (item, focusedWindow) {
           if (focusedWindow) focusedWindow.webContents.toggleDevTools()
         }
-      },
-      {
-        type: 'separator'
-      },
-      {
-        role: 'resetzoom'
-      },
-      {
-        role: 'zoomin'
-      },
-      {
-        role: 'zoomout'
-      },
-      {
-        type: 'separator'
-      },
-      {
-        role: 'togglefullscreen'
-      }
-    ]
-  },
-  {
-    role: 'window',
-    submenu: [
-      {
-        role: 'minimize'
-      },
-      {
-        role: 'close'
-      }
-    ]
-  },
-  {
-    role: 'help',
-    submenu: [
-      {
-        // TODO: Add in the pencilcode guide here
-        label: 'Learn More',
-        click () { require('electron').shell.openExternal('http://electron.atom.io') }
       }
     ]
   }
@@ -290,5 +173,6 @@ if (process.platform === 'darwin') {
 
 
 // sets the menu to our template
+// comment out to remove menu
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
