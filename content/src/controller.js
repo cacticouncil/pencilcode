@@ -609,8 +609,8 @@ function standaloneLoad()
 	dialog.showOpenDialog(function(fileName) {
 	if(fileName == undefined)
 		return;
-	else
-		readFile(fileName[0]);
+	
+	readFile(fileName[0]);
 	});
 	
 }

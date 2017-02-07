@@ -1703,7 +1703,9 @@ function updatePaneTitle(pane) {
             '"></span> <span alt="' + alt + '">' +
             '<span>' + label + '</span></span></a>';
       }
-      if (/pencilcode/.test(paneState.mimeType)) {
+	  // this was removing the language button unintentionally
+	  if (true) {
+      //if (/pencilcode/.test(paneState.mimeType)) {
         var visibleMimeType = editorMimeType(paneState);
         // Show the Javascript watermark if the language is JS.
         var showjs = (/javascript/.test(visibleMimeType));
@@ -2325,7 +2327,7 @@ function setPaneEditorData(pane, doc, filename, useblocks) {
   var meta = copyJSON(doc.meta);
   var paneState = state.pane[pane];
   paneState.filename = filename;
-  paneState.mimeType = "text/x-pencilcode;charset=utf-8";
+  paneState.mimeType = filetype.mimeForFilename(filename);
   paneState.cleanText = text;
   paneState.cleanMeta = JSON.stringify(meta);
   paneState.dirtied = false;
