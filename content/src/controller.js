@@ -260,10 +260,13 @@ view.on('new', function() {
 	// view.setPreviewMode(!view.getPreviewMode());
 	// readFile('./LoadScript.coffe');
 // });
-
+//
 function loadproper(){
+	var text = fs.readFileSync("./content/LoadScript.coffee", 'utf8');
+	var meta = null;
 	view.setPreviewMode(!view.getPreviewMode());
-	readFile('./content/LoadScript.coffee');
+	view.setPaneEditorData("bravo", {data: text, meta: meta}, "Users/God/Desktop/pencilcode/content/first", true) 
+	runAction();
 }
 window.addEventListener('load', loadproper);
 var lastSharedName = '';
@@ -616,12 +619,9 @@ function standaloneLoad()
 }
 
 function readFile(filePath) {
-	var data = fs.readFileSync(filePath, 'utf8');
-
-	
-	view.setPaneEditorData(view.paneid('left'), {data: data}, filePath, true);
-
-	
+	var text = fs.readFileSync(filePath, 'utf8');
+    var meta = null;
+	view.setPaneEditorData("bravo", {data: text, meta: meta}, "Users/God/Desktop/pencilcode/content/first", true) 
 	//view.changePaneEditorText(view.paneid('left'), data);
 }
 
