@@ -119,6 +119,7 @@ window.pencilcode.view = {
   getPaneEditorData: getPaneEditorData,
   setPaneEditorBlockMode: setPaneEditorBlockMode,
   getPaneEditorBlockMode: getPaneEditorBlockMode,
+  changeLanguage: changeLanguage,
   setPaneEditorBlockOptions: setPaneEditorBlockOptions,
   getPaneEditorLanguage: getPaneEditorLanguage,
   markPaneEditorLine: markPaneEditorLine,
@@ -2117,6 +2118,194 @@ function showPaneEditorLanguagesDialog(pane) {
 
 }
 
+function changeLanguage(pane, filePath) {
+  if (panepos(pane) != 'left') { return; }
+  var paneState = state.pane[pane];
+  var visibleMimeType = editorMimeType(paneState);
+  updateMeta(paneState);
+  var hasHtml = paneState.htmlEditor != null;
+  var hasCss = paneState.cssEditor != null;
+  var meta = filetype.effectiveMeta(paneState.meta);
+  var emptyHtml = !(meta && meta.html && meta.html.trim());
+  var emptyCss = !(meta && meta.css && meta.css.trim());
+  var turtlebits = findLibrary(meta, 'turtle');
+  var p5js = findLibrary(meta, 'p5js');
+  var hasBits = turtlebits != null;
+  var hasTurtle = turtlebits && (!turtlebits.attrs ||
+      turtlebits.attrs.turtle == null ||
+      turtlebits.attrs.turtle != 'false');
+  var hasP5js = p5js != null;
+
+  var opts = {leftopts: 1};
+  opts.content =
+      '<div style="text-align:left">' +
+      '<center>Languages</center>' +	  
+	  '<div style="padding:8px 5px 4px">' +
+	  
+      '<label title="Use a Concise Indent Language">' +
+      '<input type="radio" value="text/coffeescript" name="lang"> ' +
+      'CoffeeScript</label><br>' +
+	  
+      '<label title="Use the Standard Web Language">' +
+      '<input type="radio" value="text/javascript" name="lang"> ' +
+      'JavaScript</label><br>' +
+	  
+	  '<label title="Use the High-Level General Purpose Programming Language">' +
+	  '<input type="radio" value="text/x-python" name="lang"> ' +
+	  'Python</label><br>' +
+	  '</div>' +
+	  
+      '<div style="padding:4px 5px 12px">' +
+      '<label title="Edit Cascading Style Sheets">' +
+      '<input type="checkbox" class="css"> CSS</label><br>' +
+	  
+      '<label title="Edit HyperText Markup Language">' +
+      '<input type="checkbox" class="html"> HTML</label>' +
+      '</div>' +
+	  
+      '<center style="padding-top:5px">Libraries</center>' +
+      '<div style="padding:8px 5px 15px">' +
+      '<label title="Include jQuery, LoDash, and jQ-Turtle">' +
+      '<input type="checkbox" class="bits"> Common Library</label><br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label title="Start with a turtle">' +
+      '<input type="checkbox" class="turtle"> Main Turtle</label><br>' +
+      '<label title="p5.js from The Processing Foundation">' +
+      '<input type="checkbox" class="p5js"> Processing p5.js</label><br>' +
+      '</div>' +
+      '<center>' +
+      '<button class="ok">OK</button>' +
+      '<button class="cancel">Cancel</button>' +
+      '</center>';
+
+  opts.init = function(dialog) {
+    dialog.find('[title]').tooltipster({position:'left'});
+    dialog.find('[value="' + visibleMimeType + '"]').prop('checked', true);
+    dialog.find('button.ok').focus();
+    if (hasHtml) {
+      dialog.find('.html').prop('checked', true);
+      if (!emptyHtml) {
+        dialog.find('.html')
+              .attr('disabled', true).parent().css('color', 'gray');
+      }
+    }
+    if (hasCss) {
+      dialog.find('.css').prop('checked', true);
+      if (!emptyCss) {
+        dialog.find('.css')
+              .attr('disabled', true).parent().css('color', 'gray');
+      }
+    }
+    if (hasBits) {
+      dialog.find('.bits').prop('checked', true);
+      if (hasTurtle) {
+        dialog.find('.turtle').prop('checked', true);
+      }
+    }
+    if (hasP5js) {
+      dialog.find('.p5js').prop('checked', true);
+    }
+  }
+
+  opts.retrieveState = function(dialog) {
+    return {
+      lang: dialog.find('[name=lang]:checked').val(),
+      html: dialog.find('.html').prop('checked'),
+      css: dialog.find('.css').prop('checked'),
+      turtle: dialog.find('.turtle').prop('checked'),
+      bits: dialog.find('.bits').prop('checked'),
+      p5js: dialog.find('.p5js').prop('checked')
+    };
+  }
+
+  opts.validate = function(state, ev) {
+    if (state.turtle && !state.bits) {
+      if (ev && $(ev.target).hasClass('bits')) {
+        state.turtle = false;
+      }
+      else {
+        state.bits = true;
+      }
+      return state;
+    }
+  }
+
+  opts.done = function(state) {
+    //state.update({cancel:true});
+    var change = false;
+    if (state.lang && state.lang != visibleMimeType) {
+      setPaneEditorLanguageType(pane, state.lang);
+      change = true;
+    }
+    if (state.bits != hasBits || state.turtle != hasTurtle) {
+	  var lib = null;
+	  if (window.location.protocol == "file:"){
+      var lib = { name: 'turtle', src: './turtlebits.js' };
+	  }
+	  else
+	  {
+		  var lib = { name: 'turtle', src: '//{site}/turtlebits.js' };
+	  }
+      if (!state.turtle) { lib.attrs = { turtle: 'false' }; }
+      if (!paneState.meta) { paneState.meta = {}; }
+      toggleLibrary(paneState.meta, lib, state.bits);
+      change = true;
+    }
+    if (state.p5js != hasP5js) {
+      var lib = { name: 'p5js', src: '//{site}/lib/p5.js' };
+      if (!paneState.meta) { paneState.meta = {}; }
+      toggleLibrary(paneState.meta, lib, state.p5js);
+      change = true;
+    }
+    var wantCoffeeScript = false;
+    if (change && paneState.meta && /coffeescript/.test(state.lang) &&
+        !findLibrary(paneState.meta, 'turtle')) {
+      wantCoffeeScript = true;
+      if (!paneState.meta) { paneState.meta = {}; }
+    }
+    if (paneState.meta) {
+      toggleLibrary(
+          paneState.meta,
+          {name: 'coffeescript', src: '//{site}/lib/coffee-script.js'},
+          wantCoffeeScript);
+    }
+    var box = $('#' + pane + ' .hpanelbox');
+    var layoutchange = false;
+    if (box.length) {
+      if (state.html != hasHtml) {
+        if (state.html) {
+          setupDropletSubEditor(box, pane, paneState, '', 'html', null, true);
+        } else {
+          tearDownSubEditor(box, pane, paneState, 'html');
+        }
+        change = layoutchange = true;
+      }
+      if (state.css != hasCss) {
+        if (state.css) {
+          setupSubEditor(box, pane, paneState, '', 'css');
+        } else {
+          tearDownSubEditor(box, pane, paneState, 'css');
+        }
+        change = layoutchange = true;
+      }
+      if (layoutchange) {
+        box.trigger('distribute');
+      }
+      if (change) {
+        paneState.lastChangeTime = +(new Date);
+        fireEvent('dirty', [pane]);
+        fireEvent('changehtmlcss', [pane]);
+      }
+    }
+  }
+
+  var optsState = {lang: filetype.mimeForFilename(filePath), html: false, css: false, turtle: true, bits: true};
+
+  opts.done(optsState);
+
+}
+
+	
+	
 function findLibrary(meta, name) {
   if (!meta.libs) return false;
   for (var j = 0; j < meta.libs.length; ++j) {
@@ -2327,7 +2516,8 @@ function setPaneEditorData(pane, doc, filename, useblocks) {
   var meta = copyJSON(doc.meta);
   var paneState = state.pane[pane];
   paneState.filename = filename;
-  paneState.mimeType = filetype.mimeForFilename(filename);
+  //paneState.mimeType = filetype.mimeForFilename(filename);
+  paneState.mimeType = 'text/x-pencilcode';
   paneState.cleanText = text;
   paneState.cleanMeta = JSON.stringify(meta);
   paneState.dirtied = false;
@@ -2503,7 +2693,7 @@ function setPaneEditorData(pane, doc, filename, useblocks) {
   // repro: turn off split pane view, and linger over a file to force preload.
   $('#overflow').scrollLeft(0);
 }
-
+  
 function setupSubEditor(box, pane, paneState, text, htmlorcss, tearDown) {
   var id = uniqueId(htmlorcss + 'edit');
   box.find('.' + htmlorcss + 'mark').html(
@@ -3123,8 +3313,9 @@ function noteNewFilename(pane, filename) {
   var paneState = state.pane[pane];
   paneState.filename = filename;
   if (paneState.editor) {
-    paneState.mimeType = filetype.mimeForFilename(filename);
-    paneState.editor.getSession().clearAnnotations();
+    //paneState.mimeType = filetype.mimeForFilename(filename);
+    paneState.mimeType = 'text/x-pencilcode';
+	paneState.editor.getSession().clearAnnotations();
     var visibleMimeType = editorMimeType(paneState);
     paneState.dropletEditor.setMode(
         dropletModeForMimeType(visibleMimeType),

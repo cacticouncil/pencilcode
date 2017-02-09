@@ -621,9 +621,12 @@ function standaloneLoad()
 function readFile(filePath) {
 	var text = fs.readFileSync(filePath, 'utf8');
     var meta = null;
-	view.setPaneEditorData("bravo", {data: text, meta: meta}, "Users/God/Desktop/pencilcode/content/first", true) 
+	view.setPaneEditorData("bravo", {data: text, meta: meta}, filePath, true); 
+	
+	view.changeLanguage(view.paneid('left'), filePath);
 	//view.changePaneEditorText(view.paneid('left'), data);
 }
+
 
 
 view.on('standaloneSaveAs', standaloneSaveAs);
@@ -1483,7 +1486,7 @@ function doneWithFile(filename) {
 view.on('rename', function(newname) {
   var pp = paneatpos('left');
   var mp = modelatpos('left');
-  if (mp.filename === newname || nosaveowner()) {
+  if (mp.filename === newname || nosaveowner() || window.location.protocol == "file:") {
     // Nothing to do
     return;
   }
