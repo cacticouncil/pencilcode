@@ -1638,9 +1638,10 @@ function paletteForPane(paneState, selfname) {
       basePalette = palette.JAVASCRIPT_PALETTE;
     }
 	
-    if (mimeType == 'text/x-python' || mimeType == /x-python/.test(mimeType)) {
+	// TODO: Uncomment to re-add python functionality
+    /*if (mimeType == 'text/x-python' || mimeType == /x-python/.test(mimeType)) {
         basePalette = palette.PYTHON_PALETTE;
-    }
+    }*/
 
     if (mimeType.replace(/;.*$/, '') == 'text/html') {
       basePalette = palette.HTML_PALETTE;
@@ -1966,10 +1967,12 @@ function showPaneEditorLanguagesDialog(pane) {
       '<input type="radio" value="text/javascript" name="lang"> ' +
       'JavaScript</label><br>' +
 	  
-	  '<label title="Use the High-Level General Purpose Programming Language">' +
+	  '</div>' + // Delete this line if python functionality is uncommented
+	  // TODO: Uncomment to re-add python functionality
+	  /*'<label title="Use the High-Level General Purpose Programming Language">' +
 	  '<input type="radio" value="text/x-python" name="lang"> ' +
 	  'Python</label><br>' +
-	  '</div>' +
+	  '</div>' +*/
 	  
       '<div style="padding:4px 5px 12px">' +
       '<label title="Edit Cascading Style Sheets">' +
