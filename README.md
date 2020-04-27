@@ -15,24 +15,12 @@ __Linux:__
 `sudo yum install git-core` on CentOS / Redhat / Fedora
 
 2. Node.js -
-Some modern systems have recent enough tools to install node.js via the package manager. Here is how you'd do so on Ubuntu (native or under WSL):
+It is recommended you install Node and NPM via NVM.
 <pre>
-sudo apt-get install npm git
-sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
-sudo npm install -g grunt-cli
-</pre>
-If you are not sure, it is recommended you get and build the latest `node`, `npm`, and `grunt` binaries as follows:
-<pre>
-mkdir -p /tmp/nodejs && cd /tmp/nodejs
-wget -N http://nodejs.org/dist/v7.4.0/node-v7.4.0.tar.gz # http://nodejs.org/dist/node-latest.tar.gz
-tar xzvf node-*.tar.gz && cd `ls -d node-v*`
-./configure --prefix=$HOME/local
-make install
-echo 'export PATH=$HOME/local/bin:$PATH' &gt;&gt; ~/.bashrc
-source ~/.bashrc
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+nvm install node
 npm install -g grunt-cli
 </pre>
-Zsh users should change `bashrc` to `zshrc` in the above code.
 
 __Mac:__
 
