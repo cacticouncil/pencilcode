@@ -45,6 +45,7 @@
     "grunt-contrib-imagemin": "latest",
     "grunt-contrib-less": "latest",
     "grunt-contrib-uglify": "latest",
+    "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
     "grunt-contrib-watch": "latest",
     "grunt-express-server": "latest",
     "grunt-mocha-test": "latest",
