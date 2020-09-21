@@ -4,7 +4,7 @@
     "datadir": "../local/data",
     "cachedir": "../local/cache"
   },
-  "host": "pencilcode.net.dev",
+  "host": "localhost",
   "useProxy": 1,
   "useHttps": false
 }
